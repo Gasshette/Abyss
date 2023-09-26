@@ -6,7 +6,10 @@
   background-color: var(--mui-palette-primary-dark); //#0B2447; // Customized in theme
   height: 100%;
   width: 100%;
-  // border: 1px solid red
+}
+
+html {
+  scrollbar-gutter: 'stable';
 }
 
 .active > * {

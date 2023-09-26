@@ -13,9 +13,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
     <CssVarsProvider theme={theme}>
       <RouterProvider router={router} />
-      {/* <BrowserRouter>
-        <App />
-      </BrowserRouter> */}
     </CssVarsProvider>
   </React.StrictMode>
 );

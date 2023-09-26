@@ -45,8 +45,8 @@ const SideMenu = () => {
         ))}
       </List>
 
-      <PillButton color="info" variant="contained">
-        Coucou
+      <PillButton color="info" variant="contained" size="large">
+        Post
       </PillButton>
 
       <PillButton
