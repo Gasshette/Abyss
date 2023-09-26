@@ -30,7 +30,7 @@ const Deep = ({ deep }: { deep: DeepModel }) => {
           <Box display="inline-block" fontWeight={700}>
             {deep.account?.name}
           </Box>{' '}
-          <Typography variant="subtitle2" color="grey" sx={{ display: 'inline-block' }}>
+          <Typography variant="subtitle2" color="var(--mui-palette-grey-500)" sx={{ display: 'inline-block' }}>
             {deep.account?.identifier} - {deep.date.toString()}
           </Typography>
         </Box>

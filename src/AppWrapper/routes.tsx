@@ -2,6 +2,8 @@ import { RouteObject, createBrowserRouter } from 'react-router-dom';
 import Layout from './layout';
 import Following from '../Components/following';
 import Home from '../Pages/home';
+import { Home as HomeIcon, Subscriptions } from '@mui/icons-material';
+import Subscription from '../Pages/subscription';
 
 export const routeConfig: RouteObject[] = [
   {
@@ -13,6 +15,8 @@ export const routeConfig: RouteObject[] = [
         handle: {
           label: 'Home',
           topMenu: true,
+          sideMenu: true,
+          icon: <HomeIcon />,
         },
         children: [
           {
@@ -24,6 +28,15 @@ export const routeConfig: RouteObject[] = [
             },
           },
         ],
+      },
+      {
+        path: 'subscription',
+        element: <Subscription />,
+        handle: {
+          label: 'Subscription',
+          sideMenu: true,
+          icon: <Subscriptions />,
+        },
       },
     ],
   },

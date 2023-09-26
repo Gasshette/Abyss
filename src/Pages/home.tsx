@@ -23,7 +23,9 @@ const Home = () => {
   }, [setDeeps, setIsLoading]);
 
   useEffect(() => {
-    getAllDeeps();
+    if (deeps.length <= 0) {
+      getAllDeeps();
+    }
   }, [getAllDeeps, setIsLoading]);
 
   return (

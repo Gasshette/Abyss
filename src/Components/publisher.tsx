@@ -8,22 +8,27 @@ import { Deep as DeepModel } from '../Models/deep';
 import { useDeepModalContext } from '../contexts/deepModalContext';
 import { useDeepContext } from '../contexts/deepContext';
 
-const Textarea = styled(TextareaAutosize)(({ theme }) => ({
+const Textarea = styled(TextareaAutosize)({
   width: '100%',
   backgroundColor: 'transparent',
   border: 'none',
-  borderBottom: theme.palette.secondary.main,
+  borderBottom: 'var(--mui-palette-secondary-main)',
   borderRadius: 'none',
   outline: 'none',
   fontSize: '20px',
   resize: 'none',
-}));
+  '&::placeholder': {
+    color: 'var(--mui-palette-grey-500)',
+  },
+});
 
 type Inputs = {
   text: string;
 };
 
 const Publisher = ({ getAllDeeps, deep }: { getAllDeeps?: () => Promise<void>; deep?: DeepModel }) => {
+  const isEditMode = deep && Object.keys(deep).length > 0;
+
   const { isOpen, setIsOpen } = useDeepModalContext();
   const { editDeep } = useDeepContext();
 
@@ -36,12 +41,11 @@ const Publisher = ({ getAllDeeps, deep }: { getAllDeeps?: () => Promise<void>; d
 
     let newDeep;
 
-    if (deep) {
+    if (isEditMode) {
       // Edition mode
       newDeep = deep;
       newDeep.text = data.text;
       await put(newDeep);
-      isOpen && setIsOpen(false);
       editDeep(newDeep);
     } else {
       // Creation mode
@@ -49,6 +53,7 @@ const Publisher = ({ getAllDeeps, deep }: { getAllDeeps?: () => Promise<void>; d
       await post(newDeep);
     }
 
+    isOpen && setIsOpen(false);
     setIsPending(false);
     getAllDeeps && getAllDeeps();
   };
@@ -68,7 +73,7 @@ const Publisher = ({ getAllDeeps, deep }: { getAllDeeps?: () => Promise<void>; d
         </Box>
         <Box display="flex" flexGrow={1} justifyContent="flex-end">
           <PillButton type="submit" size="small" variant="contained" color="info" isPending={isPending}>
-            {deep ? 'Edit' : 'Post'}
+            {isEditMode ? 'Edit' : 'Post'}
           </PillButton>
         </Box>
       </form>

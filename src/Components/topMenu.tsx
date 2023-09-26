@@ -1,8 +1,9 @@
 import { Box, Typography, styled } from '@mui/material';
 import { NavLink, RouteObject, useMatches } from 'react-router-dom';
 import { routeConfig } from '../AppWrapper/routes';
+import { Helpers } from '../helpers/helpers';
 
-const CustomNavLink = styled(NavLink)(({ theme }) => ({
+const CustomNavLink = styled(NavLink)({
   display: 'flex',
   height: '60px',
   width: '100%',
@@ -10,43 +11,24 @@ const CustomNavLink = styled(NavLink)(({ theme }) => ({
   alignItems: 'center',
   flexGrow: 1,
   textDecoration: 'none',
-  color: theme.palette.grey[200],
+  color: 'var(--mui-palette-grey-500) !important',
   transition: 'background-color .3s',
+  backdropFilter: 'blur(10px)',
   ':hover': {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: 'var(--mui-palette-primary-main)',
   },
-}));
-
-const isFilled = (val: any) => val !== null && val !== undefined && val !== '';
+});
 
 const TopMenu = () => {
   const matches = useMatches();
 
   const currentRouteLabel = matches.filter((match) => Boolean(match.handle?.label)).map((match) => match.handle.label);
 
-  const getNodeByPropRecursive = (
-    obj: object,
-    prop: string,
-    parent: object,
-    shouldGetParent = false,
-    resultHolder: Array<RouteObject>
-  ) => {
-    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
-      resultHolder.push(shouldGetParent ? parent : obj);
-    } else {
-      Object.entries(obj).forEach(([_, val]) => {
-        if (isFilled(val) && typeof val === 'object') {
-          getNodeByPropRecursive(val, prop, obj, shouldGetParent, resultHolder);
-        }
-      });
-    }
-  };
-
   const topMenuRoutes: Array<RouteObject> = [];
-  getNodeByPropRecursive(routeConfig, 'topMenu', routeConfig, true, topMenuRoutes);
+  Helpers.getNodeByPropRecursive(routeConfig, 'topMenu', routeConfig, true, topMenuRoutes);
 
   return (
-    <>
+    <Box position="sticky" top={0} zIndex={999} sx={{ backdropFilter: 'blur(10px)' }}>
       <Typography variant="h6" p={2} sx={{ fontWeight: 700 }}>
         {currentRouteLabel[currentRouteLabel.length - 1]}
       </Typography>
@@ -58,12 +40,12 @@ const TopMenu = () => {
             className={(isActive) => (isActive ? 'active' : '')}
           >
             <Typography height="100%" display="flex" alignItems="center" borderBottom="3px solid transparent">
-              {route.handle.label}
+              <span>{route.handle.label}</span>
             </Typography>
           </CustomNavLink>
         ))}
       </Box>
-    </>
+    </Box>
   );
 };
 

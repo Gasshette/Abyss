@@ -9,10 +9,11 @@
 }
 
 html {
-  scrollbar-gutter: 'stable';
+  scrollbar-gutter: stable;
 }
 
 .active > * {
   font-weight: 700 !important;
+  color: var(--mui-palette-common-white);
   border-color: var(--mui-palette-info-main) !important;
 }
