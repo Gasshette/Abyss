@@ -7,6 +7,7 @@ import { post, put } from '../Apis/deepsApis';
 import { Deep as DeepModel } from '../Models/deep';
 import { useDeepModalContext } from '../contexts/deepModalContext';
 import { useDeepContext } from '../contexts/deepContext';
+import useApis from '../hooks/useApi';
 
 const Textarea = styled(TextareaAutosize)({
   width: '100%',
@@ -26,10 +27,11 @@ type Inputs = {
   text: string;
 };
 
-const Publisher = ({ getAllDeeps, deep }: { getAllDeeps?: () => Promise<void>; deep?: DeepModel }) => {
+const Publisher = ({ deep }: { deep?: DeepModel }) => {
   const isEditMode = deep && Object.keys(deep).length > 0;
 
-  const { isOpen, setIsOpen } = useDeepModalContext();
+  const { getAllDeeps } = useApis();
+  const { isOpen, setIsOpen, setData } = useDeepModalContext();
   const { editDeep } = useDeepContext();
 
   const [isPending, setIsPending] = useState(false);
@@ -45,17 +47,21 @@ const Publisher = ({ getAllDeeps, deep }: { getAllDeeps?: () => Promise<void>; d
       // Edition mode
       newDeep = deep;
       newDeep.text = data.text;
+
       await put(newDeep);
+
       editDeep(newDeep);
+
+      // Mandatory since "setIsOpen(false)" does not trigger the "onClose" prop of the MUI Modal component (see)
+      setData({});
     } else {
       // Creation mode
       newDeep = new DeepModel({ accountGuid: '3252ab78-b89a-4843-b3fc-4251bff0c417', text: data.text });
       await post(newDeep);
     }
-
-    isOpen && setIsOpen(false);
     setIsPending(false);
-    getAllDeeps && getAllDeeps();
+    isOpen && setIsOpen(false);
+    !isEditMode && getAllDeeps();
   };
 
   return (

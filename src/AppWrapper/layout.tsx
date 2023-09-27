@@ -88,10 +88,9 @@ const Layout = () => {
                     TODO list
                   </Typography>
                   <ul>
-                    <li>
-                      /POST from sideMenu : getAllDeeps not available, maybe create a context to store all the api calls
-                      ? Careful about the loader
-                    </li>
+                    <li>Finish the /PUT request (server side)</li>
+                    <li>Bg transparency :hover topMenu</li>
+                    <li>ellipsis identity displayer (fixed size needed)</li>
                   </ul>
                 </Box>
               </Box>

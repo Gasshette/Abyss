@@ -26,12 +26,12 @@ const Home = () => {
     if (deeps.length <= 0) {
       getAllDeeps();
     }
-  }, [getAllDeeps, setIsLoading]);
+  }, [getAllDeeps, setIsLoading, deeps.length]);
 
   return (
     <>
       <TopMenu />
-      <Publisher getAllDeeps={getAllDeeps} />
+      <Publisher />
       {location.pathname !== '/' ? (
         <Outlet />
       ) : isLoading ? (

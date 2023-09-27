@@ -6,6 +6,7 @@ interface DeepContextProps {
   deeps: Array<Deep>;
   setDeeps: React.Dispatch<React.SetStateAction<Array<Deep>>>;
   editDeep: (editedDeep: Deep) => void;
+  removeDeep: (id: number) => void;
 }
 
 const DeepContext = createContext<DeepContextProps>(null!);
@@ -23,7 +24,12 @@ const DeepProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  return <DeepContext.Provider value={{ deeps, setDeeps, editDeep }}>{children}</DeepContext.Provider>;
+  const removeDeep = (id: number) => {
+    const newDeeps = [...deeps];
+    setDeeps(newDeeps.filter((d) => d.id !== id));
+  };
+
+  return <DeepContext.Provider value={{ deeps, setDeeps, editDeep, removeDeep }}>{children}</DeepContext.Provider>;
 };
 
 export const useDeepContext = () => useContext(DeepContext);
